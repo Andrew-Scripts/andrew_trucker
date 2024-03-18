@@ -1,0 +1,14 @@
+{
+    "truckerman": "Trucker Job",
+    "open_truckerman": "Talk",
+    "price": "Price: %s$",
+    "deliver": "Deliver",
+    "deliver_package": "Deliver package to location",
+    "delivered_package": "You successfully delivered package",
+    "deliver_package_bind": "[%s] - Deliver package",
+    "deliver_content": "Do you really want to deliver package for %s$?",
+    "start_job": "Start job",
+    "start_content": "Do you really want to start this job for %s$?",
+    "rent_truck": "Rent Truck",
+    "rent_price": "Click to rent this truck."
+}
