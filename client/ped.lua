@@ -22,12 +22,29 @@ local function open()
 end
 
 for _, coords in ipairs(Config.ped.locations) do
-    Utils.createPed(coords.coords, Config.ped.model, {
-        {
-            label = locale('open_truckerman'),
-            icon = 'comment',
-            onSelect = open
-        }
-    })
+    if Config.Target == 'ox_target'then
+        Utils.createPed(coords.coords, Config.ped.model, {
+            {
+                label = locale('open_truckerman'),
+                icon = 'comment',
+                onSelect = open
+            }
+        })
+    elseif Config.Target == 'prompts' then
+        Utils.createPed(coords.coords, Config.ped.model, false)
+
+        exports.lunar_bridge:addPoint({
+            coords = coords.coords, -- vector3
+            distance = 1.0, -- the distance at which the becomes interactable
+            options = {
+                {
+                    label = locale('open_truckerman'),
+                    icon = 'comment',
+                    onSelect = open
+                }
+            }
+        })
+    end
+
     Utils.createBlip(coords.coords, Config.ped.blip)
 end

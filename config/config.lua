@@ -1,5 +1,7 @@
 Config = {}
 
+Config.Target = 'ox_target' -- 'ox_target' or 'prompts' (if you are using prompts, then you will need lunar_bridge)
+
 Config.ped = {
     model = `s_m_m_cntrybar_01`,
     blip = {
