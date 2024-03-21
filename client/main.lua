@@ -23,24 +23,6 @@ local function spawnVehicle(truck)
     end
 end
 
-local function rentVehicle(index)
-    local truck = Config.Locations.deliveries[index]
-    local confirmed = lib.alertDialog({
-        header = locale('start_job'),
-        content = locale('start_content', truck.price),
-        centered = true,
-        cancel = true
-    }) == 'confirm'
-
-    if not confirmed then return end
-
-    local success = lib.callback.await('andrew_trucker:rentVehicle', false, index)
-
-    if success then
-        spawnVehicle(truck)
-    end
-end
-
 ---@CPoint?
 local point
 local shown = false
@@ -110,25 +92,43 @@ local function createDeliverZone(coords)
     })
 end
 
+local function rentVehicle(index)
+    local truck = Config.Locations.deliveries[index]
+    local confirmed = lib.alertDialog({
+        header = locale('start_job'),
+        content = locale('start_content', truck.price),
+        centered = true,
+        cancel = true
+    }) == 'confirm'
+
+    if not confirmed then return end
+
+    local success = lib.callback.await('andrew_trucker:rentVehicle', false, index)
+
+    if success then
+        local blip = Utils.createBlip(truck.deliverLocation, {
+            name = locale('deliver'),
+            sprite = 1,
+            color = 5,
+            scale = 0.75
+        })
+        SetBlipRoute(blip, true)
+        createDeliverZone(truck.deliverLocation)
+        lib.points.new({
+            coords = truck.deliverLocation,
+            distance = 5.0,
+            onEnter = function()
+                RemoveBlip(blip)
+            end
+        })
+        spawnVehicle(truck)
+    end
+end
+
+
+
 function start(data)
     local index in data
     local item = Config.Locations.deliveries[index]
     rentVehicle(index)
-    
-    local blip = Utils.createBlip(item.deliverLocation, {
-        name = locale('deliver'),
-        sprite = 1,
-        color = 5,
-        scale = 0.75
-    })
-    SetBlipRoute(blip, true)
-    createDeliverZone(item.deliverLocation)
-    lib.points.new({
-        coords = item.deliverLocation,
-        distance = 5.0,
-        onEnter = function()
-            RemoveBlip(blip)
-        end
-    })
-
 end

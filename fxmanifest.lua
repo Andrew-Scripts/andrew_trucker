@@ -5,7 +5,7 @@ lua54 'yes'
 
 author 'Andrew'
 description 'Advanced Trucker'
-version '1.0.1'
+version '1.0.2'
 
 files {
     'locales/*.json'
